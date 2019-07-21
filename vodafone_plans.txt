@@ -1,0 +1,15 @@
+Rs 35 = Rs 26.6 for 28 days
+Rs 49 = Rs 42 for 28 days
+Rs 99 = Rs 82 for days
+Rs 250 = Rs 250 Full Talktime
+Rs 29 = 100 sms for 28 days
+Rs 99 = 500 sms for 84 days
+Rs 29 = 1 GB for 3 days
+Rs 98 = 10GB data for 14days
+Rs 119 = 20 GB data for 28 days
+Rs 149 = Unlimited local + STD calls + 100 sms/day + 1GB/day data for 28 days
+Rs 199 = Unlimited local + STD calls + 100 sms/day + 1.4GB/day data for 28 days
+Rs 249 = Unlimited local + STD calls + 100 sms/day + 2GB/day data for 28 days
+Rs 299 = Unlimited local + STD calls + 100 sms/day + 2.5GB/day data for 28 days
+Rs 399 = Unlimited local + STD calls + 100 sms/day + 1.4GB/day data for 84 days
+Rs 29 = 1.5 GB for 2 days
