@@ -1,31 +1,24 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "constants.cpp"
+#include "adminLogin.cpp"
+#include "newCustomer.cpp"
+#include "existingUser.cpp"
 
-struct customer {
-	char name[20];
-	char email[50];
-	char idProof[50];
-	char gender[10];
-	char nationality[20];
-	char DOB[15];
-} EMPTY_CUST_STRUCT;
-
-const char operators[][13] = { "Airtel", "Vodafone", "Reliance Jio" };
-const char planFiles[][16] = { "airtel_plans.txt", "vodafone_plans.txt", "reliance_jio.txt" };
-
+void start();
+void display1(char*);
+FILE* getFile(int);
 void addPlan();
 void updatePlan();
 void deletePlan();
-FILE *getFile(int);
-void rechargeOptions();
-void showAdminOptions();
-void adminLogin();
-void existingUser();
-void newCustomer();
 
 int main() {
-    int select;
+    start();
+}
+
+void start() {
+	int select;
 
     printf("1.NEW CUSTOMER\n");
     printf("2.EXISTING CUSTOMER\n");
@@ -48,169 +41,11 @@ int main() {
 			break;
         default:
             printf("Wrong choice entered");
-            main();
     }
 }
 
-void newCustomer() {
-    FILE *cust;
-    FILE *num;
-	struct customer ct;
-	
-    cust = fopen("customer.txt", "a");
-
-    printf("Enter your name:-\n");
-	scanf("%s", ct.name);
-	printf("Enter your email:-\n");
-	scanf("%s", ct.email);
-	printf("Which idProof do you have:-\n");
-	scanf("%s", ct.idProof);
-	printf("Your are (M/F):-\n");
-	scanf("%s", ct.gender);
-	printf("What is your nationality?\n");
-	scanf("%s", ct.nationality);
-	printf("Enter your date of birth in the (DD/MM/YYYY) format\n");
-	scanf("%s", ct.DOB);
-    printf("Congrulations! You are successfully registered...\n");
-	printf("Your login_id is your email and password is your email and date of birth\n");
-    
-	fprintf(cust, "\n%s %s %s %s %s %s", ct.name, ct.email, ct.idProof, ct.gender, ct.nationality, ct.DOB);
-    fclose(cust);
-	printf("Your credentials will be the email and dob that are %s and %s respectively\n", ct.email, ct.DOB);
-
-	int choose;
-	
-	printf("Choose your operator:\n");
-	printf("1.%s\n", operators[0]);
-	printf("2.%s\n", operators[1]);
-	printf("3.%s\n", operators[2]);
-	printf("Only press integers\n");
-	scanf("%d", &choose);
-
-    switch (choose)
-    {
-        case 1:
-			{
-				char number1[11] = "9932210003";
-				printf("Your number is   %s\n", number1);
-				num = fopen("numbers.txt", "a");
-				fprintf(num, "%s\n", number1);
-			}
-            break;
-        case 2:
-			{
-				char number2[11] = "7021548976";
-				printf("Your number is %s\n", number2);
-				num = fopen("numbers.txt", "a");
-				fprintf(num, "%s\n", number2);
-			}
-			break;
-        case 3:
-			{
-				char number3[11] = "8852164700";
-				printf("Your number is   %s\n", number3);
-				num = fopen("numbers.txt", "a");
-				fprintf(num, "%s\n", number3);
-			}
-            break;    
-        default:
-            printf("Sorry! Wrong choice entered");
-			exit(0);
-    }   
-}
-
-void existingUser() {
-    int choice;
-	char id[50], p[50], data[1000];
-	FILE *fp, *fs, *fd, *ft;
-
-	struct customer ct;
-
-	printf("\nEnter ID to login\n");
-	scanf("%s", id);
-	printf("Enter Password\n");
-	scanf("%s", p);
-
-	fp = fopen("customer.txt", "r");
-	int infoCount = 1;
-
-	while(fscanf(fp, "%s", data) != EOF)
-	{
-		switch (infoCount)
-		{
-			e
-				} else {
-					ct = EMPTY_CUST_STRUCT;
-				}
-				break;
-		}
-
-		if(infoCount == -1) {
-			break;
-		}
-	}
-	fclose(fp);
-
-	if(strlen(ct.email) == 0)
-	{
-		printf("\nIncorrect ID and Password......\n\n");
-	}
-	else {
-		printf("login successfully......\n");
-		rechargeOptions();		
-	}
-		
-}
-
-void adminLogin() {
-    char id[20], p[20], login_id[50], password[50];
-	int size;
-
-	FILE *fp;
-
-	fp = fopen("admin_login.txt", "r");
-	if (fp != NULL) {
-    	fseek (fp, 0, SEEK_END);
-    	size = ftell(fp);
-
-    	if (size == 0) 
-		{
-			fp = fopen("admin_login.txt", "w");
-			printf("No Admin till yet....\n");
-			printf("Enter ID to register\n");
-			scanf("%s",login_id);
-			printf("Enter Password\n");
-			scanf("%s",password);
-
-			fprintf(fp, "%s\n %s", login_id, password);
-			printf("Id created!!!!\n");	
-			fclose(fp);
-		}
-	}	
-	fp = fopen("admin_login.txt", "r");
-	fscanf(fp, "%s[^\n]", login_id);
-	fscanf(fp, "%s[^\n]", password);
-
-		
-	printf("Enter ID to login\n");
-	scanf("%s", id);
-	printf("Enter Password\n");
-	scanf("%s", p);
-	
-	if(strcmp(login_id,id) == 0 && strcmp(password,p) == 0)
-	{
-		printf("login successfully...............\n");
-		showAdminOptions();
-	}
-	else{
-		printf("Incorrect ID and Password......\n");
-		adminLogin();
-	}
-	fclose(fp);
-}
-
 void showAdminOptions() {
-	int choice;
+	int choice, ch;
 	printf("What do you want to do\n");
 	printf("1.ADD\n");
 	printf("2.UPDATE\n");
@@ -228,7 +63,7 @@ void showAdminOptions() {
 			break;
 		case 3:
 			deletePlan();
-			break;	
+			break;
 		case 4:
 			exit(0);
 			break;
@@ -317,7 +152,7 @@ void updatePlan() {
 	showAdminOptions();
 }
 
-void deletePlan(){
+void deletePlan() {
 	char plans[1000], str[200];
 	int choice, deletedLineNo, lineNo = 0;
 	FILE *fp1, *fp2;
@@ -360,8 +195,11 @@ void deletePlan(){
 }
 
 void rechargeOptions() {
-	int serviceProvider;
-	FILE *fs, *fd, *ft;
+	int serviceProvider, ch2 = 1;
+	char mno[15], data[300];
+	FILE *fp, *fc;
+
+	struct customer ct;
 	printf("Choose your service provider\n");
 	printf("1.%s\n", operators[0]);
 	printf("2.%s\n", operators[1]);
@@ -372,85 +210,194 @@ void rechargeOptions() {
 	switch(serviceProvider)
 	{
 		case 1:
-		{
-			fs = getFile(serviceProvider);
+		{	
+			fp = getFile(serviceProvider);
 			char c;
-
 			do 
 			{
-				c = fgetc(fs);
+				c = fgetc(fp);
 				printf("%c", c);
 			}
 			while(c != EOF);
-			fclose(fs);			
-			printf("\nYour current balance is Rs 400\n");
-			int x, y;
-				
-			printf("Enter the amount of the pack you want to recharge\n");
-			scanf("%d", &x);
-				
-			y = 400 - x;
-			
-			if(x <= 400)
-			{
-				printf("Recharge Successful\n");
-				printf("Your remaining balance is Rs %d", y);
+			fclose(fp);
+			bool found = false;
+			printf("\n\nEnter your mobile number : ");
+			scanf("%s", mno);
+			fc = fopen("customer.txt", "r");
+			while(fscanf(fc, "%s", data) != EOF){
+				switch(ch2)
+				{
+					case 1: 
+						strcpy(ct.name, data);
+						ch2++;
+						break;
+					case 2:
+						strcpy(ct.email, data);
+						ch2++;
+						break;
+					case 3:
+						strcpy(ct.idProof, data);
+						ch2++;
+						break;
+					case 4:
+						strcpy(ct.gender, data);
+						ch2++;
+						break;
+					case 5:
+						strcpy(ct.nationality, data);
+						ch2++;
+						break;
+					case 6:
+						strcpy(ct.DOB, data);
+						ch2++;
+						break;
+					case 7:
+						strcpy(ct.serviceProvider, data);
+						ch2++;
+						break;
+					case 8:
+						strcpy(ct.mobileNumber, data);
+						ch2 = 1;
+						if(strcmp(ct.serviceProvider, operators[0]) == 0 && strcmp(ct.mobileNumber, mno) == 0)
+						{
+							found = true;
+						}
+						break;
+				}
+				if(found){
+					break;
+				}
 			}
-			else
-			{
-				printf("Sorry! Invalid amount entered");		
+			if(found){
+				display1(mno);
 			}
 			break;
 		}
 		case 2:
 		{
-			ft = getFile(serviceProvider);
+			fp = getFile(serviceProvider);
 			char c;
 			do 
 			{
-				c = fgetc(ft);
+				c = fgetc(fp);
 				printf("%c", c);
 			}
 			while(c != EOF);
-			fclose(ft);
-			printf("\nYour current balance is Rs 400\n");
-			int x, y;
-			printf("Enter the amount of the pack you want to recharge\n");
-			scanf("%d", &x);
-			y = 400 - x;
-			if(x <= 400)
-			{
-				printf("Recharge Successful\n");
-				printf("Your remaining balance is Rs %d", y);
+			fclose(fp);
+			bool found = false;
+			printf("\n\nEnter your mobile number : ");
+			scanf("%s", mno);
+			fc = fopen("customer.txt", "r");
+			while(fscanf(fc, "%s", data) != EOF){
+				switch(ch2)
+				{
+					case 1: 
+						strcpy(ct.name, data);
+						ch2++;
+						break;
+					case 2:
+						strcpy(ct.email, data);
+						ch2++;
+						break;
+					case 3:
+						strcpy(ct.idProof, data);
+						ch2++;
+						break;
+					case 4:
+						strcpy(ct.gender, data);
+						ch2++;
+						break;
+					case 5:
+						strcpy(ct.nationality, data);
+						ch2++;
+						break;
+					case 6:
+						strcpy(ct.DOB, data);
+						ch2++;
+						break;
+					case 7:
+						strcpy(ct.serviceProvider, data);
+						ch2++;
+						break;
+					case 8:
+						strcpy(ct.mobileNumber, data);
+						ch2 = 1;
+						if(strcmp(ct.serviceProvider, operators[1]) == 0 && strcmp(ct.mobileNumber, mno) == 0)
+						{
+							found = true;
+						}
+						break;
+				}
+				if(found){
+					break;
+				}
 			}
-			else
-			{
-				printf("Sorry! Invalid amount entered");
+			if(found){
+				display1(mno);
 			}
 			break;
 		}
 		case 3:
 		{
-			fd = getFile(serviceProvider);
+		fp = getFile(serviceProvider);
 			char c;
-			do {
-				c = fgetc(fd);
+			do 
+			{
+				c = fgetc(fp);
 				printf("%c", c);
 			}
 			while(c != EOF);
-			fclose(fd);
-			printf("\nYour current balance is Rs 400\n");
-			int x, y;
-			printf("Enter the amount of the pack you want to recharge\n");
-			scanf("%d", &x);
-			y = 400 - x;
-			if(x <= 400){
-				printf("Recharge Successful\n");
-				printf("Your remaining balance is Rs %d", y);
+			fclose(fp);
+			bool found = false;
+			printf("\n\nEnter your mobile number : ");
+			scanf("%s", mno);
+			fc = fopen("customer.txt", "r");
+			while(fscanf(fc, "%s", data) != EOF){
+				switch(ch2)
+				{
+					case 1: 
+						strcpy(ct.name, data);
+						ch2++;
+						break;
+					case 2:
+						strcpy(ct.email, data);
+						ch2++;
+						break;
+					case 3:
+						strcpy(ct.idProof, data);
+						ch2++;
+						break;
+					case 4:
+						strcpy(ct.gender, data);
+						ch2++;
+						break;
+					case 5:
+						strcpy(ct.nationality, data);
+						ch2++;
+						break;
+					case 6:
+						strcpy(ct.DOB, data);
+						ch2++;
+						break;
+					case 7:
+						strcpy(ct.serviceProvider, data);
+						ch2++;
+						break;
+					case 8:
+						strcpy(ct.mobileNumber, data);
+						ch2 = 1;
+						if(strcmp(ct.serviceProvider, operators[2]) == 0 && strcmp(ct.mobileNumber, mno) == 0)
+						{
+							found = true;
+						}
+						break;
+				}
+				if(found){
+					break;
+				}
 			}
-			else
-			{
-				printf("Sorry! Invalid amount entered");
+			if(found){
+				display1(mno);
 			}
 			break;
 		}
@@ -466,9 +413,219 @@ FILE *getFile(int choice) {
 	int arraylen = sizeof(planFiles)/sizeof(planFiles[0]);
 	for(int i = 0; i < arraylen; i++) {
 		if(choice - 1 == i) {
-			return fopen(strcat(planFiles[i], ".txt"), "r");
+			return fopen(planFiles[i], "r");
 		}
 	}
-
 	showAdminOptions();
+}
+
+void checkBalance() {
+	FILE *fa;
+	int ch2 = 1, i;
+	char mno[50], data[300];
+	fa = fopen("account_details.txt","r");
+	bool found = false;
+	printf("Enter mobile number:  ");
+	scanf("%s", mno);
+
+	while(fscanf(fa, "%s", data) != EOF)
+	{
+		switch (ch2)
+		{
+			case 1:
+				strcpy(ad.name, data);
+				ch2++;
+				break;
+			case 2:
+				strcpy(ad.mb_no, data);
+				ch2++;
+				break;
+			case 3:
+				strcpy(ad.balance, data);
+				ch2++;
+				break;
+			case 4:
+				strcpy(ad.validity, data);
+				ch2 = 1;
+				if(strcmp(mno, ad.mb_no) == 0)
+				{
+					found = true;
+				}
+				break;				
+		}		
+		
+		if(found)
+			break;
+	}
+	fclose(fa);
+
+	if(found)
+	{
+		printf("\nYour mobile number is: %s\nYour current balance is Rs %s\nand valid for %s days.",
+		ad.mb_no,ad.balance,ad.validity);
+
+		printf("Press 1 for back or 0 for exit\n");
+		scanf("%d", &i);
+
+		(i == 1) ? customerOptions() : exit(0);
+	} else {
+		printf("There are no records in the file......");
+	}
+}
+
+void browsePlans() {
+	FILE *fp;
+	int i;
+
+	printf("Select your service_provider :\n");
+	printf("1.%s\n", operators[0]);
+	printf("2.%s\n", operators[1]);
+	printf("3.%s\n", operators[2]);
+	scanf("%d", &i);
+
+	switch(i) 
+	{
+		case 1:
+		{
+			fp = getFile(i);
+			char c;
+			int ch;
+			do 
+			{
+				c = fgetc(fp);
+				printf("%c", c);
+			}
+			while(c != EOF);
+			fclose(fp);
+			printf("\nPress 1 for back or 0 for exit");
+			scanf("%d", &ch);
+			(ch == 1) ? customerOptions() : exit(0);
+			break;
+		}	
+		case 2:
+		{
+			fp = getFile(i);
+			char c;
+			int ch;
+			do 
+			{
+				c = fgetc(fp);
+				printf("%c", c);
+			}
+			while(c != EOF);
+			fclose(fp);
+			printf("\nPress 1 for back or 0 for exit");
+			scanf("%d", &ch);
+			(ch == 1) ? customerOptions() : exit(0);
+			break;
+		}
+		case 3:
+		{
+			fp = getFile(i);
+			char c;
+			int ch;
+			do 
+			{
+				c = fgetc(fp);
+				printf("%c", c);
+			}
+			while(c != EOF);
+			fclose(fp);
+			printf("\nPress 1 for back or 0 for exit");
+			scanf("%d", &ch);
+			(ch == 1) ? customerOptions() : exit(0);
+			break;
+		}
+	}
+}
+
+void customerOptions() {
+	int sp;
+
+	printf("Choose option\n");
+	printf("1.Check Balance\n");
+	printf("2.Browse Plans\n");
+	printf("3.Recharge Now\n");
+	printf("4.Exit\n");
+	scanf("%d", &sp);
+	switch(sp) {
+		case 1:
+			checkBalance();
+			break;
+		case 2:
+			browsePlans();
+			break;
+		case 3:
+			rechargeOptions();
+			break;
+		case 4:
+			exit(0);
+			break;
+		default :
+			printf("incorrect choice");
+			customerOptions();
+			break;
+	}
+}
+
+void display1(char number[15]) {
+	FILE *fp1, *fp2;
+	int ch2 = 1, k = 0, line = 1;
+	char data[300], str[200], amount[3];
+	fp1 = fopen("account_details.txt","r");
+	bool found = false;
+
+	while(fscanf(fp1, "%s", data) != EOF)
+	{
+		switch (ch2)
+		{
+			case 1:
+				strcpy(ad.name, data);
+				ch2++;
+				break;
+			case 2:
+				strcpy(ad.mb_no, data);
+				ch2++;
+				break;
+			case 3:
+				strcpy(ad.balance, data);
+				ch2++;
+				break;
+			case 4:
+				strcpy(ad.validity, data);
+				ch2 = 1;
+				if(strcmp(number, ad.mb_no) == 0)
+				{
+					found = true;
+				}
+				k++;
+				break;				
+		}		
+		if(found)
+			break;
+	}	
+		if(found) {
+			printf("\nEnter the amount: ");
+			scanf("%s", amount);
+			strcpy(ad.balance, amount);
+			printf("%s", ad.balance);
+			fp2 = fopen("replica.txt", "w");
+			while(fgets(str, 100, fp1) != NULL) {
+				if(line != k) {
+					fputs(str, fp2);
+				}
+				else if(line == k) {
+					fprintf(fp2, "%s %s %s %s\n", ad.name, ad.mb_no, ad.balance, ad.validity);
+				}
+				line++;
+			}
+		}	
+	
+			fclose(fp1);
+			fclose(fp2);
+
+			remove("account_details.txt");
+			rename("replica.txt", "account_details.txt");
+
+			printf("Recharge sucessful...");
 }
